@@ -22,12 +22,12 @@ const Hero = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                    <button className="w-full sm:w-auto px-8 py-4 bg-brand-gradient text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-brand-orange/20 transition-all flex items-center justify-center gap-2">
+                    <a href="https://pos.nestely.in/register" className="w-full sm:w-auto px-8 py-4 bg-brand-gradient text-white rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-brand-orange/20 transition-all flex items-center justify-center gap-2">
                         Start Free Trial <ChevronRight size={20} />
-                    </button>
-                    <button className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white border border-white/10 rounded-full font-semibold text-lg hover:bg-white/20 transition-all flex items-center justify-center gap-2 backdrop-blur-sm">
+                    </a>
+                    <a href="#demo" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white border border-white/10 rounded-full font-semibold text-lg hover:bg-white/20 transition-all flex items-center justify-center gap-2 backdrop-blur-sm">
                         <Play size={20} fill="currentColor" /> Book Demo
-                    </button>
+                    </a>
                 </div>
 
                 {/* Mockup Illustration */}

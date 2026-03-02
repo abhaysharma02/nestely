@@ -29,12 +29,12 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
-                        <button className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                        <a href="https://pos.nestely.in/login" className="text-gray-300 hover:text-white transition-colors text-sm font-medium">
                             Login
-                        </button>
-                        <button className="bg-brand-gradient text-white px-5 py-2.5 rounded-full font-medium hover:shadow-lg hover:shadow-brand-orange/20 transition-all flex items-center gap-1 text-sm">
+                        </a>
+                        <a href="https://pos.nestely.in/register" className="bg-brand-gradient text-white px-5 py-2.5 rounded-full font-medium hover:shadow-lg hover:shadow-brand-orange/20 transition-all flex items-center gap-1 text-sm">
                             Start Free Trial <ChevronRight size={16} />
-                        </button>
+                        </a>
                     </div>
 
                     <div className="md:hidden flex items-center">
@@ -54,7 +54,7 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
-                        <a href="#login" className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">
+                        <a href="https://pos.nestely.in/login" className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">
                             Login
                         </a>
                     </div>

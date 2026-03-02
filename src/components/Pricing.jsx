@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { handlePayment } from '../utils/razorpay';
 
 const Pricing = () => {
     const plans = [
@@ -44,8 +45,8 @@ const Pricing = () => {
                         <div
                             key={idx}
                             className={`rounded-3xl p-8 border ${plan.highlighted
-                                    ? 'bg-brand-card border-brand-orange relative transform md:-translate-y-4 shadow-2xl shadow-brand-orange/10'
-                                    : 'bg-brand-card/50 border-white/5 hover:border-white/10 transition-colors'
+                                ? 'bg-brand-card border-brand-orange relative transform md:-translate-y-4 shadow-2xl shadow-brand-orange/10'
+                                : 'bg-brand-card/50 border-white/5 hover:border-white/10 transition-colors'
                                 }`}
                         >
                             {plan.highlighted && (
@@ -63,9 +64,10 @@ const Pricing = () => {
                             </div>
 
                             <button
+                                onClick={() => handlePayment(plan.name, plan.price)}
                                 className={`w-full py-3 rounded-full font-medium transition-all mb-8 ${plan.highlighted
-                                        ? 'bg-brand-gradient text-white hover:shadow-lg hover:shadow-brand-orange/20'
-                                        : 'bg-white/10 text-white hover:bg-white/20'
+                                    ? 'bg-brand-gradient text-white hover:shadow-lg hover:shadow-brand-orange/20'
+                                    : 'bg-white/10 text-white hover:bg-white/20'
                                     }`}
                             >
                                 Get Started

@@ -40,9 +40,9 @@ const Products = () => {
                             ))}
                         </ul>
 
-                        <button className="flex items-center text-white font-medium group-hover:text-brand-orange transition-colors">
+                        <a href="https://pos.nestely.in" className="flex items-center text-white font-medium group-hover:text-brand-orange transition-colors">
                             Learn more about POS <ArrowRight size={20} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </a>
                     </div>
 
                     {/* Kartly QR Card */}
@@ -73,9 +73,9 @@ const Products = () => {
                             ))}
                         </ul>
 
-                        <button className="flex items-center text-white font-medium group-hover:text-brand-orange transition-colors relative z-10">
+                        <a href="https://kartly.nestely.in" className="flex items-center text-white font-medium group-hover:text-brand-orange transition-colors relative z-10">
                             Learn more about Kartly <ArrowRight size={20} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
