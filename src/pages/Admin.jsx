@@ -6,17 +6,58 @@ const Admin = () => {
     const [contactMessages, setContactMessages] = useState([]);
     const [users, setUsers] = useState([]);
     const [plans, setPlans] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem('adminToken') || null);
+
+    // Login State
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [authError, setAuthError] = useState('');
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setAuthError('');
+        try {
+            const res = await fetch('http://localhost:5001/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('adminToken', data.token);
+                setToken(data.token);
+            } else {
+                setAuthError(data.error || 'Login failed');
+            }
+        } catch (err) {
+            setAuthError('Network error');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('adminToken');
+        setToken(null);
+    };
 
     useEffect(() => {
+        if (!token) return;
+
         const fetchAdminData = async () => {
+            setLoading(true);
             try {
+                const headers = { 'Authorization': `Bearer ${token}` };
                 const [demoRes, contactRes, usersRes, plansRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/admin/demo'),
-                    fetch('http://localhost:5000/api/admin/contact'),
-                    fetch('http://localhost:5000/api/admin/users'),
-                    fetch('http://localhost:5000/api/admin/plans')
+                    fetch('http://localhost:5001/api/admin/demo', { headers }),
+                    fetch('http://localhost:5001/api/admin/contact', { headers }),
+                    fetch('http://localhost:5001/api/admin/users', { headers }),
+                    fetch('http://localhost:5001/api/admin/plans', { headers })
                 ]);
+
+                if (demoRes.status === 401 || demoRes.status === 403) {
+                    handleLogout();
+                    return;
+                }
 
                 const [demoData, contactData, usersData, plansData] = await Promise.all([
                     demoRes.json(),
@@ -25,10 +66,10 @@ const Admin = () => {
                     plansRes.json()
                 ]);
 
-                setDemoRequests(demoData);
-                setContactMessages(contactData);
-                setUsers(usersData);
-                setPlans(plansData);
+                setDemoRequests(demoData.data || []);
+                setContactMessages(contactData.data || []);
+                setUsers(usersData.data || []);
+                setPlans(plansData.data || []);
             } catch (error) {
                 console.error("Error fetching admin data:", error);
             } finally {
@@ -37,7 +78,39 @@ const Admin = () => {
         };
 
         fetchAdminData();
-    }, []);
+    }, [token]);
+
+    if (!token) {
+        return (
+            <div className="min-h-screen bg-brand-darker flex items-center justify-center p-4">
+                <div className="bg-brand-card border border-white/5 p-8 rounded-2xl w-full max-w-md shadow-xl">
+                    <h2 className="text-2xl font-bold text-white mb-6 text-center">Admin Login</h2>
+                    {authError && <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-lg mb-4 text-sm">{authError}</div>}
+                    <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                        <input
+                            type="email"
+                            placeholder="Admin Email"
+                            className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand-orange focus:outline-none"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand-orange focus:outline-none"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <button type="submit" className="w-full bg-brand-gradient text-white font-bold py-3 rounded-xl mt-2">
+                            Secure Login
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-brand-darker text-white p-8 font-sans">

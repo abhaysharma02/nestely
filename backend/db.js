@@ -64,6 +64,40 @@ const planSchema = new mongoose.Schema({
 
 export const Plan = mongoose.model('Plan', planSchema);
 
+const tenantSchema = new mongoose.Schema({
+  tenantId: { type: String, required: true, unique: true },
+  businessName: { type: String, required: true },
+  email: { type: String, required: true },
+  softwareType: { type: String, enum: ['POS', 'Kartly', 'Both'], required: true },
+  status: { type: String, enum: ['active', 'suspended', 'cancelled'], default: 'active' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+export const Tenant = mongoose.model('Tenant', tenantSchema);
+
+const subscriptionSchema = new mongoose.Schema({
+  tenantId: { type: String, required: true },
+  planName: { type: String, required: true },
+  razorpaySubscriptionId: { type: String },
+  razorpayPaymentId: { type: String, required: true },
+  amount: { type: Number, required: true },
+  status: { type: String, enum: ['active', 'expired', 'past_due'], default: 'active' },
+  validUntil: { type: Date, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+export const Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+const webhookLogSchema = new mongoose.Schema({
+  eventId: { type: String, required: true, unique: true }, // Razorpay Header X-Razorpay-Event-Id
+  eventType: { type: String, required: true },
+  paymentId: { type: String },
+  status: { type: String, enum: ['processed', 'failed', 'duplicate'], default: 'processed' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+export const WebhookLog = mongoose.model('WebhookLog', webhookLogSchema);
+
 // ==========================================
 // SEEDER FUNCTION
 // ==========================================
